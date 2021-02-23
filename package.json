@@ -12,7 +12,7 @@
   "dependencies": {
     "@react-native-firebase/app": "10.8.0",
     "@react-native-firebase/messaging": "10.8.0",
-    "omi-push": "./lib/omi-push/dist",
+    "omi-push": "1.0.0",
     "react": "16.13.1",
     "react-native": "0.63.4"
   },

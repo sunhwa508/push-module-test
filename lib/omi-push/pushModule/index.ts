@@ -1,5 +1,5 @@
 import messaging, { FirebaseMessagingTypes} from "@react-native-firebase/messaging";
-
+import firebase from 'react-native-firebase';
 
 export class PushModule {
  public async requestUserPermission() {
@@ -29,7 +29,7 @@ export class PushModule {
 
  public backgroundMessage(){
   try{
-   messaging().setBackgroundMessageHandler(async (remoteMessage: any) => {
+   messaging().setBackgroundMessageHandler(async remoteMessage => {
     console.log('Message handled in the background!', remoteMessage);
    });
   }catch(error){
@@ -46,4 +46,5 @@ export class PushModule {
 
   }
  }
+
 }
