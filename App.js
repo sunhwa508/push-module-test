@@ -25,23 +25,14 @@ import {
   DebugInstructions,
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
-import messaging from '@react-native-firebase/messaging';
 const App: () => React$Node = () => {
 
   const userModule = new PushModule();
 
   useEffect(() => {
     userModule._updateTokenToServer().then(token => console.log("token", token))
-
-    messaging().setBackgroundMessageHandler(async remoteMessage => {
-      // 앱이 background 일경우
-      console.log('Message handled in the background!', remoteMessage);
-    });
-
-    return messaging().onMessage(async remoteMessage => {
-      // 앱이 foreground 일경우
-      Alert.alert('A new FCM message arrived!', JSON.stringify(remoteMessage));
-    });
+    userModule._backMessageHandler()
+    userModule._frontMessageHandler()
   }, []);
 
 

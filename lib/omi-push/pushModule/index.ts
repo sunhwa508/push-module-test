@@ -1,5 +1,6 @@
 import messaging, { FirebaseMessagingTypes} from "@react-native-firebase/messaging";
-import firebase from 'react-native-firebase';
+
+
 
 export class PushModule {
  public async requestUserPermission() {
@@ -17,15 +18,38 @@ export class PushModule {
   }
  }
 
- public _updateTokenToServer = async (): Promise<string | null> => {
+ public _updateTokenToServer = async (): Promise<string | undefined> => {
   try {
    await this.requestUserPermission();
    return await messaging().getToken();
   } catch (error) {
    console.log(error);
   }
-  return null;
+  return;
  };
+
+ public _backMessageHandler = () => {
+  try{
+   messaging().setBackgroundMessageHandler(async remoteMessage => {
+    // 앱이 background 일경우
+    console.log('Message handled in the background!', JSON.stringify(remoteMessage));
+   });
+  }catch(error){
+   console.log("[messageHandler]", error)
+  }
+  return;
+ }
+
+ public _frontMessageHandler = () => {
+  try{
+   messaging().onMessage(async remoteMessage => {
+    // 앱이 foreground 일경우
+    console.log('onMessage', JSON.stringify(remoteMessage));
+   });
+  }catch(error){
+   console.log("[messageHandler]", error)
+  }
+ }
 
  public backgroundMessage(){
   try{
@@ -43,7 +67,7 @@ export class PushModule {
     //클릭 후 url 연동
    })
   }catch(error){
-
+   console.log("[clickPushMessage]", error)
   }
  }
 
